@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Scatter } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, LinearScale } from 'chart.js'
+import { Chart as ChartJS, Tooltip, Legend, PointElement, LinearScale } from 'chart.js'
 import zoomPlugin from 'chartjs-plugin-zoom'
 
-ChartJS.register(Title, Tooltip, Legend, PointElement, LinearScale, zoomPlugin)
+ChartJS.register(Tooltip, Legend, PointElement, LinearScale, zoomPlugin)
 
 interface DataPoint {
   id: number
@@ -77,10 +77,6 @@ const chartOptions = {
     legend: {
       position: 'top' as const,
     },
-    title: {
-      display: true,
-      text: 'Property Cost Scatter Plot',
-    },
     tooltip: {
       callbacks: {
         label: (context: any) => {
@@ -131,8 +127,16 @@ const chartOptions = {
 </script>
 
 <template>
-  <div>
-    <h1 class="text-3xl font-bold underline mb-4">Scatter Plot</h1>
-    <Scatter :data="chartData" :options="chartOptions" />
+  <div class="max-w-6xl mt-4 mx-auto p-6 bg-white rounded-lg shadow-lg">
+    <div class="mb-6">
+      <h1 class="text-3xl font-bold text-gray-800 mb-2">Property Cost Scatter Plot</h1>
+      <p class="text-gray-600">Hover over points to highlight all data for the same property. Use zoom and pan for detailed exploration.</p>
+    </div>
+    <div class="bg-gray-50 p-4 rounded-md border">
+      <Scatter :data="chartData" :options="chartOptions" class="w-full h-96" />
+    </div>
+    <div class="mt-4 text-sm text-gray-500">
+      <p><strong>Note:</strong> Points are slightly jittered to avoid overlaps. Tooltips show exact values.</p>
+    </div>
   </div>
 </template>
