@@ -11,7 +11,8 @@ If you discover a security vulnerability in this project, please follow responsi
 ### How to Report
 
 1. **DO NOT** create a public GitHub issue for security vulnerabilities
-2. Email the maintainers directly with details of the vulnerability
+2. Use GitHub's Security Advisory feature (preferred) or email the maintainers directly
+   - To report via GitHub: Go to the repository's "Security" tab and click "Report a vulnerability"
 3. Include the following information in your report:
    - Description of the vulnerability
    - Steps to reproduce the issue
@@ -85,7 +86,10 @@ function validateChartData(data: unknown): boolean {
 #### 4. Authentication and Authorization
 
 - **Secure API Endpoints**: If integrating with backend APIs, ensure proper authentication
-- **Token Management**: Store authentication tokens securely (not in localStorage for sensitive apps)
+- **Token Management**: Store authentication tokens securely
+  - Use httpOnly cookies for session tokens to prevent XSS access
+  - Avoid localStorage for sensitive tokens (vulnerable to XSS)
+  - Consider using secure, httpOnly, and sameSite cookie flags
 - **HTTPS Only**: Always use HTTPS in production
 - **CORS Configuration**: Properly configure CORS to prevent unauthorized access
 
@@ -159,7 +163,8 @@ VITE_API_KEY=your-api-key-here
 
 **Mitigation**:
 - Validate object structures
-- Use `Object.create(null)` for dictionaries
+- Use `Map` objects instead of plain objects for dictionaries
+- Use `Object.create(null)` for objects without prototypes when needed
 - Avoid using unsafe object merge operations
 - Update dependencies that have known prototype pollution vulnerabilities
 
